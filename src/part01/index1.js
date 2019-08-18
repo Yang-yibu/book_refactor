@@ -15,6 +15,10 @@ import plays from '../data/plays';
  */
 function statement(invoice, plays) {
 
+  function playFor(aPerformance) {
+    return plays[aPerformance.playID];
+  }
+
   function amountFor(aPerformance, play) {
     let result = 0;
 
@@ -50,8 +54,7 @@ function statement(invoice, plays) {
   ).format;
 
   for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
-    
+    const play = playFor(perf);
     let thisAmount = amountFor(perf, play);
 
     // add volume credits
@@ -70,7 +73,8 @@ function statement(invoice, plays) {
 }
 
 let result = statement(invoices[0], plays)
-debugger
+console.log(result);
+// debugger
 // Statement for BigCo
 // Hamlet: $650.00 (55 seats)
 // As You Like It: $580.00 (35 seats)
