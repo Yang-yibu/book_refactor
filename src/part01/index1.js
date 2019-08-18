@@ -14,19 +14,8 @@ import plays from '../data/plays';
   You earned 47 credits 
  */
 function statement(invoice, plays) {
-  let totalAmount = 0;
-  let volumeCredits = 0;
-  let result = `Statement for ${invoice.customer}\n`;
-  const format = new Intl.NumberFormat("en-US",
-    {
-      style: "currency", currency: "USD",
-      minimumFractionDigits: 2
-    }
-  ).format;
 
-  for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
-    
+  function amountFor(perf, play) {
     let thisAmount = 0;
 
     switch (play.type) {
@@ -47,6 +36,24 @@ function statement(invoice, plays) {
         throw new Error(`unknown type: ${play.type}`);
     }
 
+    return thisAmount;
+  }
+
+  let totalAmount = 0;
+  let volumeCredits = 0;
+  let result = `Statement for ${invoice.customer}\n`;
+  const format = new Intl.NumberFormat("en-US",
+    {
+      style: "currency", currency: "USD",
+      minimumFractionDigits: 2
+    }
+  ).format;
+
+  for (let perf of invoice.performances) {
+    const play = plays[perf.playID];
+    
+    let thisAmount = amountFor(perf, play);
+
     // add volume credits
     volumeCredits += Math.max(perf.audience - 30, 0);
     // add extra credit for every ten comedy attendees
@@ -62,4 +69,11 @@ function statement(invoice, plays) {
   return result;
 }
 
-statement(invoices[0], plays)
+let result = statement(invoices[0], plays)
+debugger
+// Statement for BigCo
+// Hamlet: $650.00 (55 seats)
+// As You Like It: $580.00 (35 seats)
+// Othello: $500.00 (40 seats)
+// Amount owed is $1,730.00
+// You earned 47 credits 
