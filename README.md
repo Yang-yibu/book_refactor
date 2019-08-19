@@ -1,3 +1,7 @@
+# book_refactor
+《重构》 读书笔记
+
+## 待查找原因
 
 package.json
 ```json
@@ -11,7 +15,8 @@ package.json
 
 TODO: 下次安装的时候移除 `@babe/node` 或改成 `babel-node-debug` 包测试
 
-原由是：yarn 安装的时候警告这个包已经包含在 `babel/core 中`
+原由是：yarn 安装的时候警告这个包已经包含在 `babel/core` 中
+
 ```bash
 $ yarn install
 yarn install v1.15.2
